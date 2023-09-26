@@ -25,7 +25,7 @@ export default function Home() {
         className={twMerge(
           'keen-slider__slide',
           'group relative flex items-center justify-center',
-          'cursor-pointer overflow-hidden rounded-lg border bg-gradient',
+          'cursor-pointer overflow-hidden rounded-lg bg-gradient',
         )}
       >
         <Image
@@ -54,7 +54,7 @@ export default function Home() {
         className={twMerge(
           'keen-slider__slide',
           'group relative flex items-center justify-center',
-          'cursor-pointer overflow-hidden rounded-lg border bg-gradient',
+          'cursor-pointer overflow-hidden rounded-lg bg-gradient',
         )}
       >
         <Image
@@ -83,7 +83,7 @@ export default function Home() {
         className={twMerge(
           'keen-slider__slide',
           'group relative flex items-center justify-center',
-          'cursor-pointer overflow-hidden rounded-lg border bg-gradient',
+          'cursor-pointer overflow-hidden rounded-lg bg-gradient',
         )}
       >
         <Image
