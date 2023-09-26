@@ -1,8 +1,4 @@
 import Image from 'next/image'
-import shirt1 from '@/assets/shirt1.png'
-import shirt2 from '@/assets/shirt2.png'
-import shirt3 from '@/assets/shirt3.png'
-import shirt4 from '@/assets/shirt4.png'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 import { twMerge } from 'tailwind-merge'
@@ -27,8 +23,6 @@ export default function Home({ products }: HomeProps) {
     },
   })
 
-  console.log('aaa', products)
-
   return (
     <div
       ref={sliderRef}
@@ -45,7 +39,7 @@ export default function Home({ products }: HomeProps) {
           )}
         >
           <Image
-            src={shirt1}
+            src={prod.imageUrl}
             alt=""
             width={520}
             height={4800}
@@ -84,8 +78,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
+      teste: product.default_price,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      price: price.unit_amount / 100,
+      price: price.unit_amount! / 100,
     }
   })
 
