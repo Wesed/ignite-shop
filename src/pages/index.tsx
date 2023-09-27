@@ -3,6 +3,7 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 import { twMerge } from 'tailwind-merge'
 import { stripe } from '@/lib/stripe'
+import useNextBlurhash from 'use-next-blurhash'
 import { GetServerSideProps } from 'next'
 import Stripe from 'stripe'
 
@@ -16,6 +17,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
+  const [blurDataUrl] = useNextBlurhash('LK8Z1ObIu6j[G_a{X3j[t.j@VXaz')
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -44,6 +46,8 @@ export default function Home({ products }: HomeProps) {
             width={520}
             height={4800}
             className="object-cover"
+            placeholder="blur"
+            blurDataURL={blurDataUrl}
           />
           <footer
             className={twMerge(
