@@ -44,7 +44,7 @@ export default function Home({ products }: HomeProps) {
             src={prod.imageUrl}
             alt=""
             width={520}
-            height={4800}
+            height={480}
             className="object-cover"
             placeholder="blur"
             blurDataURL={blurDataUrl}
