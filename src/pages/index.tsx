@@ -6,6 +6,7 @@ import { stripe } from '@/lib/stripe'
 import useNextBlurhash from 'use-next-blurhash'
 import { GetStaticProps } from 'next'
 import Stripe from 'stripe'
+import Link from 'next/link'
 
 interface HomeProps {
   products: {
@@ -31,9 +32,9 @@ export default function Home({ products }: HomeProps) {
       className="keen-slider ml-auto flex min-h-[656px] w-full max-w-widthCarousel"
     >
       {products.map((prod) => (
-        <a
+        <Link
           key={prod.id}
-          href=""
+          href={`/product/${prod.id}`}
           className={twMerge(
             'keen-slider__slide',
             'group relative flex items-center justify-center',
@@ -63,7 +64,7 @@ export default function Home({ products }: HomeProps) {
               {prod.price}
             </span>
           </footer>
-        </a>
+        </Link>
       ))}
     </div>
   )
@@ -95,6 +96,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       products,
     },
-    revalidate: 60 * 60 * 2, // atualiza o conteudo a cd 2hrs
+    revalidate: 60 * 60 * 2, // atualiza o conteúdo a cd 2hrs
   }
 }
