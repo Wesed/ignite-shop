@@ -60,7 +60,7 @@ export default function Home({ products }: HomeProps) {
           >
             <strong className="">{prod.name}</strong>
             <span className="text-xl font-bold text-green300">
-              R${prod.price}
+              {prod.price}
             </span>
           </footer>
         </a>
@@ -83,8 +83,11 @@ export const getStaticProps: GetStaticProps = async () => {
       name: product.name,
       imageUrl: product.images[0],
       teste: product.default_price,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      price: price.unit_amount! / 100,
+      price: new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      }).format(price.unit_amount! / 100),
     }
   })
 
