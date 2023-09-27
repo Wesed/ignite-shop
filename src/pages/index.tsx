@@ -35,6 +35,7 @@ export default function Home({ products }: HomeProps) {
         <Link
           key={prod.id}
           href={`/product/${prod.id}`}
+          prefetch={false}
           className={twMerge(
             'keen-slider__slide',
             'group relative flex items-center justify-center',
