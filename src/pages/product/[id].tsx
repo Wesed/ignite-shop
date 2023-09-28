@@ -13,12 +13,17 @@ interface ProductProps {
     imageUrl: string
     price: string
     description: string
+    defaultPriceId: string
   }
 }
 
-export default function product({ product }: ProductProps) {
+export default function Product({ product }: ProductProps) {
   /* eslint-disable react-hooks/rules-of-hooks */
   const { isFallback } = useRouter()
+
+  const handleClick = () => {
+    console.log(product.defaultPriceId)
+  }
 
   return (
     <main className="mx-auto my-0 grid max-w-widthProject grid-cols-2 items-stretch gap-16">
@@ -55,6 +60,7 @@ export default function product({ product }: ProductProps) {
         )}
 
         <button
+          onClick={handleClick}
           className={twMerge(
             'mt-auto cursor-pointer rounded-lg p-5',
             'font-bold uppercase text-white',
@@ -105,6 +111,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         }).format(price.unit_amount! / 100),
         description: product.description,
+        defaultPriceId: price.id,
       },
     },
     revalidate: 60 * 60 * 1, // atualiza o conteúdo a cd 2hrs
