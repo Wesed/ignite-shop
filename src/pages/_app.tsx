@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className="flex min-h-screen flex-col items-start justify-center bg-gray900 text-gray100">
       <header className="my-0 ml-auto w-full max-w-widthCarousel px-0 py-8">
         <Link href="/">
-          <Image src={logo} alt="" />
+          <Image src={logo} alt="" priority />
         </Link>
       </header>
       <Component {...pageProps} />

@@ -57,7 +57,14 @@ export default function Product({ product }: ProductProps) {
             />
           </div>
         ) : (
-          <Image src={product.imageUrl} alt="" width={520} height={480} />
+          <Image
+            src={product.imageUrl}
+            alt=""
+            width={520}
+            height={480}
+            priority
+            objectFit="cover"
+          />
         )}
       </div>
       <div className="flex flex-col ">
