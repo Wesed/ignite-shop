@@ -5,6 +5,8 @@ import { twMerge } from 'tailwind-merge'
 import Image from 'next/image'
 import loader from '@/assets/loader.svg'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { useState } from 'react'
 
 interface ProductProps {
   product: {
@@ -18,11 +20,27 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckout, setIsCreatingCheckout] = useState(false)
+
   /* eslint-disable react-hooks/rules-of-hooks */
   const { isFallback } = useRouter()
 
-  const handleClick = () => {
-    console.log(product.defaultPriceId)
+  const handleBuyProduct = async () => {
+    try {
+      setIsCreatingCheckout(true)
+      // como o back esta na mesma rota, nao precisa do baseURL
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      })
+
+      const { checkoutUrl } = response.data
+
+      // redireciona pra pagina do stripe
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setIsCreatingCheckout(false)
+      alert('Falha ao redirecionar ao checkout!')
+    }
   }
 
   return (
@@ -60,15 +78,17 @@ export default function Product({ product }: ProductProps) {
         )}
 
         <button
-          onClick={handleClick}
+          disabled={isCreatingCheckout}
+          onClick={handleBuyProduct}
           className={twMerge(
             'mt-auto cursor-pointer rounded-lg p-5',
             'font-bold uppercase text-white',
             'transition-colors',
-            'bg-green500 hover:bg-green300',
+            'bg-green500 enabled:hover:bg-green300',
+            'disabled:cursor-not-allowed disabled:opacity-70',
           )}
         >
-          Comprar agora
+          {isCreatingCheckout ? 'Processando...' : 'Comprar agora'}
         </button>
       </div>
     </main>
