@@ -46,6 +46,19 @@ export default function Success({ customerName, product }: SuccessProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  /* 
+    se por algum motivo o ID nao vier na URL de sucesss, retorna o usuario
+    pra tela principal. O mesmo acontece se tentar acessar sucess na URL
+  */
+  if (!query.session_id) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
   const sessionId = String(query.session_id)
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
