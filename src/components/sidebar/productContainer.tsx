@@ -12,7 +12,7 @@ export function ProductContainer({
   price,
 }: ProductContainerProps) {
   return (
-    <div className="flex gap-5">
+    <div className="flex items-start gap-5">
       <div className="rounded-lg bg-gradient">
         <Image src={image} alt="" width={100} height={90} />
       </div>

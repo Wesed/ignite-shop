@@ -6,8 +6,9 @@ import Image from 'next/image'
 import loader from '@/assets/loader.svg'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Head from 'next/head'
+import { CartContext } from '@/contexts/CartContext'
 
 interface ProductProps {
   product: {
@@ -22,6 +23,7 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false)
+  const { AddNewProduct } = useContext(CartContext)
 
   /* eslint-disable react-hooks/rules-of-hooks */
   const { isFallback } = useRouter()
@@ -42,6 +44,18 @@ export default function Product({ product }: ProductProps) {
       setIsCreatingCheckout(false)
       alert('Falha ao redirecionar ao checkout!')
     }
+  }
+
+  const handleNewProduct = () => {
+    const productData = {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      description: product.description,
+      defaultPriceId: product.defaultPriceId,
+    }
+    AddNewProduct(productData)
   }
 
   return (
@@ -94,6 +108,7 @@ export default function Product({ product }: ProductProps) {
 
           <button
             disabled={isCreatingCheckout}
+            onClick={handleNewProduct}
             // onClick={handleBuyProduct}
             className={twMerge(
               'mt-auto cursor-pointer rounded-lg p-5',
@@ -140,7 +155,6 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        teste: product.default_price,
         price: new Intl.NumberFormat('pt-BR', {
           style: 'currency',
           currency: 'BRL',
