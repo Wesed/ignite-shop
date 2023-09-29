@@ -9,9 +9,9 @@ const config: Config = {
       white: '#fff',
       gray900: '#121214',
       gray800: '#202024',
+      gray400: '#8D8D99',
       gray300: '#c4c4cc',
       gray100: '#e1e1e6',
-
       green500: '#00875f',
       green300: '#00b37e',
     },
@@ -25,6 +25,6 @@ const config: Config = {
       widthProject: '1180px',
       widthCarousel: 'calc(100vw - ((110vw - 1180px) / 2))',
     },
-  }
+  },
 }
 export default config

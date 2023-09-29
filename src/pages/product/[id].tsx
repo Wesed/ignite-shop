@@ -7,6 +7,7 @@ import loader from '@/assets/loader.svg'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useState } from 'react'
+import Head from 'next/head'
 
 interface ProductProps {
   product: {
@@ -44,61 +45,69 @@ export default function Product({ product }: ProductProps) {
   }
 
   return (
-    <main className="mx-auto my-0 grid max-w-widthProject grid-cols-2 items-stretch gap-16">
-      <div className="flex h-[656px] w-full max-w-[576px] items-center justify-center rounded-lg bg-gradient p-1">
-        {isFallback ? (
-          <div className="flex h-[656px] w-[586px] items-center justify-center">
-            <Image
-              className="animate-spin"
-              src={loader}
-              alt=""
-              width={40}
-              height={40}
-            />
-          </div>
-        ) : (
-          <Image
-            src={product.imageUrl}
-            alt=""
-            width={520}
-            height={480}
-            priority
-            objectFit="cover"
-          />
-        )}
-      </div>
-      <div className="flex flex-col ">
-        {isFallback ? (
-          <div className="flex w-full animate-pulse flex-col gap-8">
-            <span className="h-8 bg-gray800" />
-            <span className="h-8 bg-gray800" />
-            <span className="h-20 bg-gray800" />
-          </div>
-        ) : (
-          <div>
-            <h1 className="text-3xl text-gray300">{product.name}</h1>
-            <span className="mt-4 block text-3xl text-green300">
-              {product.price}
-            </span>
-            <p className="mt-10 text-lg text-gray300">{product.description}</p>
-          </div>
-        )}
+    <>
+      <Head>
+        <title>{product.name} | Dev Shop</title>
+      </Head>
 
-        <button
-          disabled={isCreatingCheckout}
-          onClick={handleBuyProduct}
-          className={twMerge(
-            'mt-auto cursor-pointer rounded-lg p-5',
-            'font-bold uppercase text-white',
-            'transition-colors',
-            'bg-green500 enabled:hover:bg-green300',
-            'disabled:cursor-not-allowed disabled:opacity-70',
+      <main className="mx-auto my-0 grid max-w-widthProject grid-cols-2 items-stretch gap-16">
+        <div className="flex h-[656px] w-full max-w-[576px] items-center justify-center rounded-lg bg-gradient p-1">
+          {isFallback ? (
+            <div className="flex h-[656px] w-[586px] items-center justify-center">
+              <Image
+                className="animate-spin"
+                src={loader}
+                alt=""
+                width={40}
+                height={40}
+              />
+            </div>
+          ) : (
+            <Image
+              src={product.imageUrl}
+              alt=""
+              width={520}
+              height={480}
+              priority
+              objectFit="cover"
+            />
           )}
-        >
-          {isCreatingCheckout ? 'Processando...' : 'Comprar agora'}
-        </button>
-      </div>
-    </main>
+        </div>
+        <div className="flex flex-col ">
+          {isFallback ? (
+            <div className="flex w-full animate-pulse flex-col gap-8">
+              <span className="h-8 bg-gray800" />
+              <span className="h-8 bg-gray800" />
+              <span className="h-20 bg-gray800" />
+            </div>
+          ) : (
+            <div>
+              <h1 className="text-3xl text-gray300">{product.name}</h1>
+              <span className="mt-4 block text-3xl text-green300">
+                {product.price}
+              </span>
+              <p className="mt-10 text-lg text-gray300">
+                {product.description}
+              </p>
+            </div>
+          )}
+
+          <button
+            disabled={isCreatingCheckout}
+            // onClick={handleBuyProduct}
+            className={twMerge(
+              'mt-auto cursor-pointer rounded-lg p-5',
+              'font-bold uppercase text-white',
+              'transition-colors',
+              'bg-green500 enabled:hover:bg-green300',
+              'disabled:cursor-not-allowed disabled:opacity-70',
+            )}
+          >
+            {isCreatingCheckout ? 'Processando...' : 'Adicionar ao carrinho'}
+          </button>
+        </div>
+      </main>
+    </>
   )
 }
 

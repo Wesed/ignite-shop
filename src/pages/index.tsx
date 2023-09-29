@@ -7,6 +7,8 @@ import useNextBlurhash from 'use-next-blurhash'
 import { GetStaticProps } from 'next'
 import Stripe from 'stripe'
 import Link from 'next/link'
+import Head from 'next/head'
+import { Bag } from 'phosphor-react'
 
 interface HomeProps {
   products: {
@@ -27,47 +29,58 @@ export default function Home({ products }: HomeProps) {
   })
 
   return (
-    <div
-      ref={sliderRef}
-      className="keen-slider ml-auto flex min-h-[656px] w-full max-w-widthCarousel"
-    >
-      {products.map((prod) => (
-        <Link
-          key={prod.id}
-          href={`/product/${prod.id}`}
-          prefetch={false}
-          className={twMerge(
-            'keen-slider__slide',
-            'group relative flex items-center justify-center',
-            'cursor-pointer overflow-hidden rounded-lg bg-gradient',
-          )}
-        >
-          <Image
-            src={prod.imageUrl}
-            alt=""
-            width={520}
-            height={480}
-            className="object-cover"
-            placeholder="blur"
-            blurDataURL={blurDataUrl}
-          />
-          <footer
+    <>
+      <Head>
+        <title>Dev Shop</title>
+      </Head>
+
+      <div
+        ref={sliderRef}
+        className="keen-slider ml-auto flex min-h-[656px] w-full max-w-widthCarousel"
+      >
+        {products.map((prod) => (
+          <Link
+            key={prod.id}
+            href={`/product/${prod.id}`}
+            prefetch={false}
             className={twMerge(
-              'flex items-center justify-between',
-              'absolute bottom-1 left-1 right-1 translate-y-[105%]',
-              'rounded-md bg-black/60 p-8 opacity-0',
-              'transition-all duration-200 ease-in-out',
-              'opacity-100 group-hover:translate-y-0',
+              'keen-slider__slide',
+              'group relative flex items-center justify-center',
+              'cursor-pointer overflow-hidden rounded-lg bg-gradient',
             )}
           >
-            <strong className="">{prod.name}</strong>
-            <span className="text-xl font-bold text-green300">
-              {prod.price}
-            </span>
-          </footer>
-        </Link>
-      ))}
-    </div>
+            <Image
+              src={prod.imageUrl}
+              alt=""
+              width={520}
+              height={480}
+              className="object-cover"
+              placeholder="blur"
+              blurDataURL={blurDataUrl}
+            />
+            <footer
+              className={twMerge(
+                'flex items-center justify-between',
+                'absolute bottom-1 left-1 right-1 translate-y-[105%]',
+                'rounded-md bg-black/60 p-8 opacity-0',
+                'transition-all duration-200 ease-in-out',
+                'opacity-100 group-hover:translate-y-0',
+              )}
+            >
+              <div className="flex flex-col gap-1">
+                <strong className="">{prod.name}</strong>
+                <span className="text-xl font-bold text-green300">
+                  {prod.price}
+                </span>
+              </div>
+              <div className=" rounded-md bg-green500 p-3 transition-colors hover:bg-green300">
+                <Bag size={24} weight="bold" />
+              </div>
+            </footer>
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }
 
