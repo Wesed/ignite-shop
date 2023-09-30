@@ -87,11 +87,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   session.line_items?.data.map((product) =>
     products.push({
-      name: product.price.product.name,
+      name: product.price?.product.name,
       imageUrl: product.price?.product.images[0],
     }),
   )
-  // console.log(products)
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const customerName = session.customer_details!.name
