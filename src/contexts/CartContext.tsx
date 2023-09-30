@@ -21,23 +21,31 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [products, setProducts] = useState<Product[]>(() => {
-    // const productsStateAsJSON = localStorage.getItem('@dev-shop:products')
+  const [products, setProducts] = useState<Product[]>([])
 
-    // if (productsStateAsJSON) {
-    //   return JSON.parse(productsStateAsJSON)
-    // }
-
-    return []
-  })
+  console.log(products)
 
   useEffect(() => {
-    const productsJSON = JSON.stringify(products)
-    localStorage.setItem('@dev-shop:products', productsJSON)
-  }, [products])
+    const getProductsFromStorage = () => {
+      const productStateAsJSON = localStorage.getItem('@dev-shop:products')
+
+      if (productStateAsJSON) {
+        return JSON.parse(productStateAsJSON)
+      }
+
+      return []
+    }
+
+    setProducts(getProductsFromStorage())
+  }, [])
 
   const AddNewProduct = (data: Product) => {
-    setProducts((state) => [...state, data])
+    const newProductArray = [...products, data]
+
+    setProducts(newProductArray)
+
+    const productsJSON = JSON.stringify(newProductArray)
+    localStorage.setItem('@dev-shop:products', productsJSON)
   }
 
   return (
