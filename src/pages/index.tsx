@@ -57,6 +57,7 @@ export default function Home({ products }: HomeProps) {
               className="object-cover"
               placeholder="blur"
               blurDataURL={blurDataUrl}
+              priority
             />
             <footer
               className={twMerge(

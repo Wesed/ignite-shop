@@ -1,12 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
-import { twMerge } from 'tailwind-merge'
 import Image from 'next/image'
 import loader from '@/assets/loader.svg'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Head from 'next/head'
 import { CartContext } from '@/contexts/CartContext'
 
@@ -22,7 +20,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { AddNewProduct } = useContext(CartContext)
+  const { addNewProduct } = useContext(CartContext)
 
   /* eslint-disable react-hooks/rules-of-hooks */
   const { isFallback } = useRouter()
@@ -36,7 +34,7 @@ export default function Product({ product }: ProductProps) {
       description: product.description,
       defaultPriceId: product.defaultPriceId,
     }
-    AddNewProduct(productData)
+    addNewProduct(productData)
   }
 
   return (

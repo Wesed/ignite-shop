@@ -25,6 +25,9 @@ const config: Config = {
       widthProject: '1180px',
       widthCarousel: 'calc(100vw - ((110vw - 1180px) / 2))',
     },
+    boxShadow: {
+      '3xl': '0 0 60px rgba(0, 0, 0, 0.8)',
+    },
   },
 }
 export default config

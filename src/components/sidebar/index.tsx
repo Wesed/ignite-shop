@@ -73,7 +73,7 @@ export function Sidebar() {
         </div>
       </Collapsible.Trigger>
       <Collapsible.Content ref={parent}>
-        <div className="flex min-h-screen w-[480px] flex-col justify-center bg-gray800 px-12 shadow-sm">
+        <div className="shadow-sm flex min-h-screen w-[480px] flex-col justify-center bg-gray800 px-12">
           {products.length > 0 ? (
             <>
               <button
@@ -93,6 +93,7 @@ export function Sidebar() {
                 {products.map((prod, i) => (
                   <ProductContainer
                     key={`${prod.id}${i}`}
+                    id={prod.id}
                     image={prod.imageUrl}
                     description={prod.name}
                     price={prod.price}

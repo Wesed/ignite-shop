@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 export interface Product {
   id: string
@@ -11,7 +17,9 @@ export interface Product {
 
 interface CartContextProps {
   products: Product[]
-  AddNewProduct: (data: Product) => void
+  addNewProduct: (data: Product) => void
+  deleteProduct: (id: string) => void
+  emptyCart: () => void
 }
 
 export const CartContext = createContext({} as CartContextProps)
@@ -37,7 +45,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     setProducts(getProductsFromStorage())
   }, [])
 
-  const AddNewProduct = (data: Product) => {
+  const addNewProduct = (data: Product) => {
     const newProductArray = [...products, data]
 
     setProducts(newProductArray)
@@ -46,8 +54,25 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     localStorage.setItem('@dev-shop:products', productsJSON)
   }
 
+  const deleteProduct = (id: string) => {
+    const updatedProductsAfterRemove = products.filter((prod) => {
+      return prod.id !== id
+    })
+    setProducts(updatedProductsAfterRemove)
+
+    const productsJSON = JSON.stringify(updatedProductsAfterRemove)
+    localStorage.setItem('@dev-shop:products', productsJSON)
+  }
+
+  const emptyCart = useCallback(() => {
+    setProducts([])
+    localStorage.removeItem('@dev-shop:products')
+  }, [])
+
   return (
-    <CartContext.Provider value={{ AddNewProduct, products }}>
+    <CartContext.Provider
+      value={{ addNewProduct, products, deleteProduct, emptyCart }}
+    >
       {children}
     </CartContext.Provider>
   )
