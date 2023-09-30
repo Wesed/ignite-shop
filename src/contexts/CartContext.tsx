@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
 
-interface Product {
+export interface Product {
   id: string
   name: string
   imageUrl: string
@@ -22,8 +22,6 @@ interface CartContextProviderProps {
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [products, setProducts] = useState<Product[]>([])
-
-  console.log(products)
 
   useEffect(() => {
     const getProductsFromStorage = () => {

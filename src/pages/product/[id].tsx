@@ -22,29 +22,10 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckout, setIsCreatingCheckout] = useState(false)
   const { AddNewProduct } = useContext(CartContext)
 
   /* eslint-disable react-hooks/rules-of-hooks */
   const { isFallback } = useRouter()
-
-  const handleBuyProduct = async () => {
-    try {
-      setIsCreatingCheckout(true)
-      // como o back esta na mesma rota, nao precisa do baseURL
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
-      })
-
-      const { checkoutUrl } = response.data
-
-      // redireciona pra pagina do stripe
-      window.location.href = checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckout(false)
-      alert('Falha ao redirecionar ao checkout!')
-    }
-  }
 
   const handleNewProduct = () => {
     const productData = {
@@ -60,9 +41,11 @@ export default function Product({ product }: ProductProps) {
 
   return (
     <>
-      <Head>
-        <title>{product.name} | Dev Shop</title>
-      </Head>
+      {product && (
+        <Head>
+          <title>{product.name} | Dev Shop</title>
+        </Head>
+      )}
 
       <main className="mx-auto my-0 grid max-w-widthProject grid-cols-2 items-stretch gap-16">
         <div className="flex h-[656px] w-full max-w-[576px] items-center justify-center rounded-lg bg-gradient p-1">
@@ -83,7 +66,6 @@ export default function Product({ product }: ProductProps) {
               width={520}
               height={480}
               priority
-              objectFit="cover"
             />
           )}
         </div>
@@ -107,18 +89,10 @@ export default function Product({ product }: ProductProps) {
           )}
 
           <button
-            disabled={isCreatingCheckout}
             onClick={handleNewProduct}
-            // onClick={handleBuyProduct}
-            className={twMerge(
-              'mt-auto cursor-pointer rounded-lg p-5',
-              'font-bold uppercase text-white',
-              'transition-colors',
-              'bg-green500 enabled:hover:bg-green300',
-              'disabled:cursor-not-allowed disabled:opacity-70',
-            )}
+            className="mt-auto rounded-lg bg-green500 py-5 text-lg font-bold text-white transition-colors hover:bg-green300"
           >
-            {isCreatingCheckout ? 'Processando...' : 'Adicionar ao carrinho'}
+            Adicionar ao carrinho
           </button>
         </div>
       </main>
