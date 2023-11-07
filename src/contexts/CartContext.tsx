@@ -10,15 +10,15 @@ export interface Product {
   id: string
   name: string
   imageUrl: string
-  price: string
-  description: string
-  defaultPriceId: string
+  price: number
+  description?: string
+  size?: number
 }
 
 interface CartContextProps {
   products: Product[]
   addNewProduct: (data: Product) => void
-  deleteProduct: (id: string) => void
+  deleteProduct: (id: string, size: number) => void
   emptyCart: () => void
 }
 
@@ -47,16 +47,15 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
   const addNewProduct = (data: Product) => {
     const newProductArray = [...products, data]
-
     setProducts(newProductArray)
 
     const productsJSON = JSON.stringify(newProductArray)
     localStorage.setItem('@dev-shop:products', productsJSON)
   }
 
-  const deleteProduct = (id: string) => {
+  const deleteProduct = (id: string, size: number) => {
     const updatedProductsAfterRemove = products.filter((prod) => {
-      return prod.id !== id
+      return prod.id !== id || prod.size !== size
     })
     setProducts(updatedProductsAfterRemove)
 

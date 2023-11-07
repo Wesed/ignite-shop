@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+[data-rmiz-modal-overlay='visible'] {
+  background-color: #202024 !important;
+  opacity: 0.9 !important;
+}

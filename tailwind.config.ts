@@ -7,6 +7,7 @@ const config: Config = {
     colors: {
       black: '#000',
       white: '#fff',
+      background: '#f6f6f6',
       gray900: '#121214',
       gray800: '#202024',
       gray400: '#8D8D99',
@@ -22,11 +23,16 @@ const config: Config = {
       sans: 'Roboto',
     },
     maxWidth: {
-      widthProject: '1180px',
-      widthCarousel: 'calc(100vw - ((110vw - 1180px) / 2))',
+      widthProject: '1280px',
     },
-    boxShadow: {
-      '3xl': '0 0 60px rgba(0, 0, 0, 0.8)',
+    extend: {
+      gridTemplateColumns: {
+        products: 'repeat(auto-fit, 250px)',
+        product: '1fr 20rem',
+      },
+      boxShadow: {
+        '3xl': '0 0 60px rgba(0, 0, 0, 0.8)',
+      },
     },
   },
 }

@@ -5,8 +5,8 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { CartContext } from '@/contexts/CartContext'
 import Link from 'next/link'
-import axios from 'axios'
 import { twMerge } from 'tailwind-merge'
+import { priceFormatter } from '@/utils/formatedPrice'
 
 interface ProductCheckoutProps {
   priceId: string
@@ -19,28 +19,15 @@ export function Sidebar() {
   const [parent] = useAutoAnimate()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false)
+  const [getTotalCartValue, setTotalCartValue] = useState(0)
+
+  const cartItemCount = products?.length
 
   const handleBuyProduct = async () => {
-    try {
-      setIsCreatingCheckout(true)
-      const productCheckout: ProductCheckoutProps[] = []
-
-      products.map((prod) =>
-        productCheckout.push({ priceId: prod.defaultPriceId, quantity: 1 }),
-      )
-
-      // como o back esta na mesma rota, nao precisa do baseURL
-      const response = await axios.post('/api/checkout', {
-        productCheckoutData: productCheckout,
-      })
-      const { checkoutUrl } = response.data
-      window.location.href = checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckout(false)
-      alert('Falha ao redirecionar ao checkout!')
-    }
+    alert('psiu')
   }
 
+  // fecha carrinho
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -55,16 +42,20 @@ export function Sidebar() {
     document.addEventListener('click', handleClickOutside)
   }, [])
 
+  // soma o total do carrinho
+  useEffect(() => {
+    let sum = 0
+    products.forEach((prod) => {
+      sum += prod.price
+    })
+    setTotalCartValue(sum)
+  }, [products])
+
   return (
-    <Collapsible.Root
-      ref={containerRef}
-      open={open}
-      onOpenChange={setOpen}
-      className="absolute right-0 z-10 min-h-screen p-0"
-    >
+    <Collapsible.Root ref={containerRef} open={open} onOpenChange={setOpen}>
       <Collapsible.Trigger className={`${open && 'absolute hidden'}`}>
-        <div className="relative top-10 mr-32 h-12 w-12 cursor-pointer rounded-md bg-gray800 p-3 transition hover:bg-opacity-70">
-          <Bag size={24} className="text-gray300 hover:text-gray100 " />
+        <div className="relative h-12 w-12 cursor-pointer rounded-md bg-gray800 p-3 transition hover:bg-opacity-70">
+          <Bag size={24} className="text-white hover:text-gray100 " />
           {products.length > 0 && (
             <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-green500 text-sm font-bold">
               {products.length}
@@ -73,18 +64,18 @@ export function Sidebar() {
         </div>
       </Collapsible.Trigger>
       <Collapsible.Content ref={parent}>
-        <div className="shadow-sm flex min-h-screen w-[480px] flex-col justify-center bg-gray800 px-12">
+        <div className="fixed right-0 top-0 flex min-h-screen w-[480px] flex-col justify-center rounded-md bg-gray800 px-12 shadow-3xl">
+          <button
+            onClick={() => {
+              setOpen(false)
+            }}
+            className="absolute right-6 top-6 text-gray400 transition-colors hover:text-green500"
+          >
+            <X size={24} weight="bold" />
+          </button>
+
           {products.length > 0 ? (
             <>
-              <button
-                onClick={() => {
-                  setOpen(false)
-                }}
-                className="absolute right-6 top-6 text-gray400 transition-colors hover:text-green500"
-              >
-                <X size={24} weight="bold" />
-              </button>
-
               <h2 className="mb-8 mt-[72px] text-xl font-bold text-gray100">
                 Sacola de compras
               </h2>
@@ -97,6 +88,7 @@ export function Sidebar() {
                     image={prod.imageUrl}
                     description={prod.name}
                     price={prod.price}
+                    size={prod.size!}
                   />
                 ))}
               </div>
@@ -104,12 +96,14 @@ export function Sidebar() {
               <footer className="mb-12 mt-auto flex w-full flex-col gap-2">
                 <div className="flex justify-between">
                   <span className="text-gray100">Quantidade</span>
-                  <span className="text-lg">3 itens</span>
+                  <span className="text-lg">{cartItemCount} itens</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-lg font-bold">Valor total</span>
-                  <span className="text-2xl font-bold">R$ 279,70</span>
+                  <span className="text-2xl font-bold">
+                    {priceFormatter(getTotalCartValue)}
+                  </span>
                 </div>
 
                 <button
